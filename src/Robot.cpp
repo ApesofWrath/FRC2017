@@ -55,15 +55,15 @@ public:
 	const int POPCORN_BUTTON = 99;
 	const int FIRE_BUTTON_2 = 99;
 	const int STOP_SHOOT_BUTTON = 99;
-	const int GEAR_PICKUP_BUTTON = 1;
-	const int GEAR_SCORE_BUTTON = 2;
-	const int OUTTAKE_BUTTON = 9;
-	const int INTAKE_BUTTON = 10;
-	const int ARM_UP_BUTTON = 8;
-	const int ARM_DOWN_BUTTON = 7;
-	const int ALTERNATE_LAW = 3;
-	const int ZERO_ARM = 5;
-	const int AT_POSITION = 6;
+	const int GEAR_PICKUP_BUTTON = 99; //1
+	const int GEAR_SCORE_BUTTON = 99; //2
+	const int OUTTAKE_BUTTON = 99; //9
+	const int INTAKE_BUTTON = 99; //10
+	const int ARM_UP_BUTTON = 99; //8
+	const int ARM_DOWN_BUTTON = 99; //7
+	const int ALTERNATE_LAW = 99; //3
+	const int ZERO_ARM = 99; //5
+	const int AT_POSITION = 99; //6
 
 	const int RAIL_OPEN_BUTTON = 3;
 	const int RAIL_CLOSE_BUTTON = 4;
@@ -132,7 +132,7 @@ public:
 
 	Timer *time = new Timer();
 
-	void RobotInit() {
+	void RobotInit() { //check compressor can id, directions in gearrail.cpp
 
 		pdp = new PowerDistributionPanel(1);
 
@@ -296,10 +296,10 @@ public:
 	//	fly_wheel->DisableThreads(); //disable auton threads
 	//	fly_wheel->StartThread(); //start teleop threads
 
-		ground_pickup->DisableThreads();
-		ground_pickup->StartThreads();
-		ground_pickup->SetIndex(0);
-		ground_pickup->SetPos(0.0);
+//		ground_pickup->DisableThreads();
+//		ground_pickup->StartThreads();
+//		ground_pickup->SetIndex(0);
+//		ground_pickup->SetPos(0.0);
 
 		drive_controller->DisableAutonThreads();
 		drive_controller->StartTeleopThreads(joyThrottle, joyWheel, &is_heading,

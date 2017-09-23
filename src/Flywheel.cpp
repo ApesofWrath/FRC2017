@@ -49,6 +49,10 @@ Flywheel::Flywheel() {
 	canTalonFlywheelRight->SelectProfileSlot(0);
 	canTalonFlywheelRight->SetSensorDirection(false); //false if Koba
 
+//	canTalonFlywheelBackRight = new CANTalon(CAN_TALON_FLYWHEEL_BACK_RIGHT);
+//	canTalonFlywheelBackRight->SetControlMode(CANSpeedController::kFollower);
+//	canTalonFlywheelBackRight->Set(CAN_TALON_FLYWHEEL_RIGHT);
+
 	canTalonFlywheelLeft = new CANTalon(CAN_TALON_FLYWHEEL_LEFT);
 	canTalonFlywheelLeft->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	canTalonFlywheelLeft->SetF(LEFT_F_GAIN);
@@ -58,6 +62,10 @@ Flywheel::Flywheel() {
 	canTalonFlywheelLeft->SetSensorDirection(true); //dont change
 	canTalonFlywheelLeft->SelectProfileSlot(0);
 	canTalonFlywheelLeft->SetSensorDirection(false); //false if Koba
+
+//	canTalonFlywheelBackLeft = new CANTalon(CAN_TALON_FLYWHEEL_BACK_RIGHT);
+//	canTalonFlywheelBackLeft->SetControlMode(CANSpeedController::kFollower);
+//	canTalonFlywheelBackLeft->Set(CAN_TALON_FLYWHEEL_LEFT);
 
 	active_ = false;
 }

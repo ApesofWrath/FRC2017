@@ -27,7 +27,7 @@ const int CAN_TALON_FRONT_LEFT = 18; //22 is gear pickup
 const int CAN_TALON_BACK_LEFT = 32;
 const int CAN_TALON_BACK_RIGHT = 30;
 const int CAN_TALON_FRONT_RIGHT = 36;
-const int CAN_TALON_KICKER = 20;
+const int CAN_TALON_KICKER = 55;
 
 double l_last_error = 0;
 double r_last_error = 0;
@@ -574,6 +574,8 @@ void DriveController::Drive(double ref_kick, double ref_right,
 	double kick_current = ((double) canTalonKicker->GetEncVel()
 			/ (double) CONVERSION_DIVISION) * CONVERSION_MULTIPLICATION; //going right is positive
 
+	std::cout << "KICK: " << canTalonKicker->GetOutputVoltage() << std::endl;
+
 	l_error_vel_t = ref_left - l_current;
 	r_error_vel_t = ref_right - r_current;
 	kick_error_vel = ref_kick - kick_current;
@@ -603,13 +605,14 @@ void DriveController::Drive(double ref_kick, double ref_right,
 	double total_kick = D_KICK_VEL + P_KICK_VEL + feed_forward_k
 			+ (Kv_KICK * target_vel_kick);
 
+
 	canTalonFrontLeft->Set(-total_left); //back cantalons follow front, don't need to set them individually
 	canTalonFrontRight->Set(total_right);
 	canTalonBackRight->Set(total_right);
 	canTalonBackLeft->Set(-total_left);
 	canTalonKicker->Set(-total_kick);
 
-//	std::cout << "P: " << P_LEFT_VEL;
+
 //	std::cout << " Ref: " << ref_kick;
 //	std::cout << " Left: " << l_current;
 //	std::cout << " Right: " << r_current;

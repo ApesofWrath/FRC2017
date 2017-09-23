@@ -19,7 +19,7 @@ public:
 	int flywheel_state = stop_state_h;
 
 
-	CANTalon *canTalonFlywheelRight, *canTalonFlywheelLeft;
+	CANTalon *canTalonFlywheelRight, *canTalonFlywheelLeft, *canTalonFlywheelBackRight, *canTalonFlywheelBackLeft;
 
 	Flywheel();
 

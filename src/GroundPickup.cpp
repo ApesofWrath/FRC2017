@@ -13,9 +13,11 @@ double STANDARD_ANGLE = 2.2; //"up"
 double STARTING_ANGLE = 2.5;
 double SPIN_SPEED = 0.35;
 double ACCEPTABLE_ERROR = 0.09;
-
 double MAX_OUTPUT = 12.0; //volts
 double MIN_OUTPUT = -12.0;
+
+const int CAN_TALON_FLOOR_PICKUP_ARM = 21;
+const int CAN_TALON_PICKUP_WHEEL = 22;
 
 const int PICKUP_SLEEP_TIME = 0;
 const double PICKUP_WAIT_TIME = 0.01; //ms
@@ -48,7 +50,7 @@ double D = 0.0;
 double i = 0.0;
 double d = 0.0;
 
-double free_speed = 1967.; //rad/s
+double free_speed = 1967; //rad/s
 double m = 2.1;
 double l = 0.2;
 double Kt = 0.00595;
@@ -100,8 +102,8 @@ int profile_i = 0;
 
 GroundPickup::GroundPickup() {
 
-	canTalonFloorPickupArm = new CANTalon(21);
-	canTalonPickupWheel = new CANTalon(22);
+	canTalonFloorPickupArm = new CANTalon(CAN_TALON_FLOOR_PICKUP_ARM);
+	canTalonPickupWheel = new CANTalon(CAN_TALON_PICKUP_WHEEL);
 
 	ref_pos_ = STARTING_TO_STANDARD_ANGLE;
 
@@ -376,14 +378,12 @@ void GroundPickup::MoveWrapper(GroundPickup *gp, int *ref_pos) {
 	std::vector<std::vector<double>> gear_profile = { };
 
 	int gear_index = 0;
-
 	int last_ref = 0;
-
 	int profile = 0;
 
 	timerPickup->Start();
 
-	while (true) { //TODO: need to pass in profile
+	while (true) {
 		while (frc::RobotState::IsEnabled()) {
 
 			std::this_thread::sleep_for(
@@ -428,14 +428,12 @@ void GroundPickup::MoveWrapper(GroundPickup *gp, int *ref_pos) {
 				if (profile == 1) {
 					gp->MoveArm(gear_profile.at(0).at(gp->gearpickup_index),
 							0.0); //see if all you need to do is not have velocity motion profiles
-					std::cout<<"HERE"<<std::endl;
+					//std::cout<<"HERE"<<std::endl;
 				} else {
 					gp->MoveArm(gear_profile.at(0).at(gp->gearpickup_index),
 							gear_profile.at(1).at(gp->gearpickup_index));
 				}
-				std::cout << "Target: "
-						<< gear_profile.at(0).at(gp->gearpickup_index)
-						<< std::endl;
+			//	std::cout << "Target: "<< gear_profile.at(0).at(gp->gearpickup_index)<< std::endl;
 
 				//std::cout << "ref" << *ref_pos << std::endl;
 
