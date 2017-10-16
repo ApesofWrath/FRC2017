@@ -249,7 +249,7 @@ public:
 
 		} else if (autoSelected == driveForward) {
 
-			autonomous_->FillProfile("/home/lvuser/drive_forward_arm_down.csv"); //Drive_Forward_Profile
+			autonomous_->FillProfile("/home/lvuser/Drive_Forward_Profile.csv"); //drive_forward_arm_down
 
 		} else if (autoSelected == shootAuton) {
 
@@ -316,10 +316,10 @@ public:
 
 	void TeleopPeriodic() {
 
-//		std::cout<<"R1: "<< drive_controller->canTalonBackRight->GetOutputCurrent();//<<std::endl;
-//		std::cout<<" R2: "<< drive_controller->canTalonFrontRight->GetOutputCurrent();//<<std::endl;
-//		std::cout<<" L1: "<< drive_controller->canTalonBackLeft->GetOutputCurrent();//<<std::endl;
-//		std::cout<< " L2: "<< drive_controller->canTalonFrontLeft->GetOutputCurrent()<<std::endl;
+		std::cout<<"R1: "<< drive_controller->canTalonBackRight->GetOutputCurrent();//<<std::endl;
+		std::cout<<" R2: "<< drive_controller->canTalonFrontRight->GetOutputCurrent();//<<std::endl;
+		std::cout<<" L1: "<< drive_controller->canTalonBackLeft->GetOutputCurrent();//<<std::endl;
+		std::cout<< " L2: "<< drive_controller->canTalonFrontLeft->GetOutputCurrent()<<std::endl;
 
 		SmartDashboard::PutNumber("Azimuth", vision_->findAzimuth());
 

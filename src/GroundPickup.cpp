@@ -399,7 +399,7 @@ void GroundPickup::MoveWrapper(GroundPickup *gp, int *ref_pos) {
 				switch (profile) {
 
 				case DOWN_TO_STANDARD_ANGLE:
-					std::cout << "0" << std::endl;
+					//std::cout << "0" << std::endl;
 					gear_profile = down_to_standard_profile;
 					if (last_ref != profile) {
 						gp->SetIndex(0);
@@ -407,7 +407,7 @@ void GroundPickup::MoveWrapper(GroundPickup *gp, int *ref_pos) {
 					break;
 
 				case STANDARD_TO_DOWN_ANGLE:
-					std::cout << "1" << std::endl;
+					//std::cout << "1" << std::endl;
 					gear_profile = standard_to_down_profile;
 					if (last_ref != profile) {
 						gp->SetIndex(0);
@@ -415,7 +415,7 @@ void GroundPickup::MoveWrapper(GroundPickup *gp, int *ref_pos) {
 					break;
 
 				case STARTING_TO_STANDARD_ANGLE:
-					std::cout << "2" << std::endl;
+					//std::cout << "2" << std::endl;
 					gear_profile = starting_to_standard_profile;
 					if (last_ref != profile) {
 						gp->SetIndex(0);

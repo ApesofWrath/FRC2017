@@ -9,7 +9,7 @@
 #include <WPILib.h>
 
 const int NUM_POINTS = 1500; //one point for every 10 ms, 15 seconds
-const int NUM_INDEX = 15;
+const int NUM_INDEX = 13; //15 for Brutus
 
 //first 7 are for drive
 const int PISTON_INDEX = 8; //gear rails
@@ -17,8 +17,8 @@ const int FLYWHEEL_INDEX = 9;
 const int CONVEYOR_INDEX = 10;
 const int ELEVATOR_INDEX = 11;
 //12 is for vision
-const int INTAKE_INDEX = 13; //ground pickup wheel
-const int ARM_INDEX = 14; //ground pickup arm
+//const int INTAKE_INDEX = 13; //ground pickup wheel
+//const int ARM_INDEX = 14; //ground pickup arm
 //last column is of 0s
 
 double refs[NUM_POINTS][NUM_INDEX];
@@ -72,43 +72,43 @@ void Autonomous::RunAuton() { // runs continuously through all autonomous modes
 		elevator_au->elevator_state = elevator_au->stop_state_h;
 	}
 
-	if (refs[index][ARM_INDEX] == 1) { //Ground Pickup // arm "up" (lower than arm starting position)
-		if (refs[index][INTAKE_INDEX] == 2) {
-			ground_pickup_au->ground_pickup_state =
-					ground_pickup_au->arm_up_spin_in_state_h;
-		} else if (refs[index][INTAKE_INDEX] == 1) {
-			ground_pickup_au->ground_pickup_state =
-					ground_pickup_au->arm_up_spin_out_state_h;
-		} else {
-			ground_pickup_au->ground_pickup_state =
-					ground_pickup_au->arm_up_state_h;
-		}
-	}
-
-	if (refs[index][ARM_INDEX] == 0) { //Ground Pickup // arm down
-		if (refs[index][INTAKE_INDEX] == 2) {
-			ground_pickup_au->ground_pickup_state =
-					ground_pickup_au->arm_down_spin_in_state_h;
-		} else if (refs[index][INTAKE_INDEX] == 1) {
-			ground_pickup_au->ground_pickup_state =
-					ground_pickup_au->arm_down_spin_out_state_h;
-		} else {
-			ground_pickup_au->ground_pickup_state =
-					ground_pickup_au->arm_down_state_h;
-		}
-	}
-
-	if (refs[index][ARM_INDEX] == 2) { //Ground Pickup //arm from starting to standard height
-		if (refs[index][INTAKE_INDEX] == 2) {
-			ground_pickup_au->ground_pickup_state =
-					ground_pickup_au->arm_down_spin_in_state_h;
-		//	std::cout << "HERE" << std::endl;
-
-		} else {
-			ground_pickup_au->ground_pickup_state =
-					ground_pickup_au->arm_start_state_h;
-		}
-	}
+//	if (refs[index][ARM_INDEX] == 1) { //Ground Pickup // arm "up" (lower than arm starting position)
+//		if (refs[index][INTAKE_INDEX] == 2) {
+//			ground_pickup_au->ground_pickup_state =
+//					ground_pickup_au->arm_up_spin_in_state_h;
+//		} else if (refs[index][INTAKE_INDEX] == 1) {
+//			ground_pickup_au->ground_pickup_state =
+//					ground_pickup_au->arm_up_spin_out_state_h;
+//		} else {
+//			ground_pickup_au->ground_pickup_state =
+//					ground_pickup_au->arm_up_state_h;
+//		}
+//	}
+//
+//	if (refs[index][ARM_INDEX] == 0) { //Ground Pickup // arm down
+//		if (refs[index][INTAKE_INDEX] == 2) {
+//			ground_pickup_au->ground_pickup_state =
+//					ground_pickup_au->arm_down_spin_in_state_h;
+//		} else if (refs[index][INTAKE_INDEX] == 1) {
+//			ground_pickup_au->ground_pickup_state =
+//					ground_pickup_au->arm_down_spin_out_state_h;
+//		} else {
+//			ground_pickup_au->ground_pickup_state =
+//					ground_pickup_au->arm_down_state_h;
+//		}
+//	}
+//
+//	if (refs[index][ARM_INDEX] == 2) { //Ground Pickup //arm from starting to standard height
+//		if (refs[index][INTAKE_INDEX] == 2) {
+//			ground_pickup_au->ground_pickup_state =
+//					ground_pickup_au->arm_down_spin_in_state_h;
+//		//	std::cout << "HERE" << std::endl;
+//
+//		} else {
+//			ground_pickup_au->ground_pickup_state =
+//					ground_pickup_au->arm_start_state_h;
+//		}
+//	}
 
 }
 

@@ -23,8 +23,8 @@ const double MAX_YAW_RATE = (19.04 / 625) * MAX_Y_RPM; //max angular velocity di
 const int DRIVE_SLEEP_TIME = 0.00;
 const double DRIVE_WAIT_TIME = 0.01; //10 ms
 
-const int CAN_TALON_FRONT_LEFT = 18; //22 is gear pickup
-const int CAN_TALON_BACK_LEFT = 32;
+const int CAN_TALON_FRONT_LEFT = 32; //22 is gear pickup //18
+const int CAN_TALON_BACK_LEFT = 18;
 const int CAN_TALON_BACK_RIGHT = 30;
 const int CAN_TALON_FRONT_RIGHT = 36;
 const int CAN_TALON_KICKER = 55;
@@ -42,8 +42,8 @@ double kick_last_error_vel = 0;
 
 const double K_P_YAW_T = 0.0; //4 //joystick now cubed
 
-const double K_P_YAW_AU = 0.0; //10
-const double K_D_YAW_AU = 0.0;
+const double K_P_YAW_AU = 20.0; //10
+const double K_D_YAW_AU = 5.0;
 
 const double K_P_YAW_H_VEL = 13.0;
 
@@ -51,21 +51,21 @@ const double K_P_YAW_HEADING_POS = 9.0;
 
 const double K_D_VISION_POS = 0.0;
 
-const double K_P_LEFT_VEL = 0.0; //0.004220; //0.004
+const double K_P_LEFT_VEL = 0.004220; //0.004
 const double K_D_LEFT_VEL = 0.0;
 const double K_F_LEFT_VEL = 1.0 / 625.0;
 double P_LEFT_VEL = 0;
 double D_LEFT_VEL = 0;
 double d_left_vel = 0; //dynamic value
 
-const double K_P_RIGHT_VEL = 0.0; //0.004220; //0.004
+const double K_P_RIGHT_VEL = 0.004220; //0.004
 const double K_D_RIGHT_VEL = 0.0;
 const double K_F_RIGHT_VEL = 1.0 / 625.0;
 double P_RIGHT_VEL = 0;
 double D_RIGHT_VEL = 0;
 double d_right_vel = 0; //dynamic value
 
-const double K_P_KICK_VEL = 0.0; //.00365; //0.00311
+const double K_P_KICK_VEL = 0.00365; //0.00311
 const double K_D_KICK_VEL = 0.0;
 const double K_F_KICK_VEL = 1.0 / 400.0;
 double P_KICK_VEL = 0;
@@ -78,7 +78,7 @@ const double CONVERSION_MULTIPLICATION = 600;
 const double K_P_RIGHT_DIS = 0.088; //0.225
 const double K_P_LEFT_DIS = 0.088; //0.225
 const double K_P_KICKER_DIS = 0.280; //TODO: check this value
-const double K_P_YAW_DIS = 0.558;
+const double K_P_YAW_DIS = 0.3;//558;
 
 const double K_I_RIGHT_DIS = 0.055;
 const double K_I_LEFT_DIS = 0.055;
@@ -148,12 +148,12 @@ double kick_error_vel = 0;
 double drive_wait_time = 0.01; //ms
 
 const int NUM_POINTS = 1500;
-const int NUM_INDEX = 15;
+const int NUM_INDEX = 13;
 
 //double last_drive_ref[NUM_INDEX] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 //		0.0, 0.0, 0.0, 0.0};
 double drive_ref[NUM_INDEX] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-		0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		0.0, 0.0, 0.0, 0.0 }; // 0.0, 0.0 for Brutus
 double full_refs[NUM_POINTS][NUM_INDEX];
 
 double acceptable_yaw_error = .22;
@@ -325,6 +325,14 @@ void DriveController::DrivePID() { //auton
 	double tarVelRight = drive_ref[6];
 	double tarVelKick = drive_ref[7];
 
+	//std::cout << "Y: " << targetYawRate << std::endl;
+//	std::cout << "L: " << refLeft;
+//	std::cout << " R: " << refRight << std::endl;
+
+	//tarVels are same
+	//refLeft and refRight are same
+	//target_rpms : left < right
+
 	if (std::abs(tarVelKick) < .05) {
 		tarVelKick = 0.0;
 	}
@@ -341,19 +349,23 @@ void DriveController::DrivePID() { //auton
 			/ TICKS_PER_ROT) * (WHEEL_DIAMETER * PI) / 12);
 	double k_dis = (((double) canTalonKicker->GetEncPosition() / TICKS_PER_ROT)
 			* (WHEEL_DIAMETER * PI) / 12);
-	double y_dis = -1.0 * ahrs->GetYaw() * (double) (PI / 180); //current theta (yaw) value
+	double y_dis = -1.0 * ahrs->GetYaw() * (double) (PI / 180); //current theta (yaw) value//*-1.0
+
+	std::cout << "Y: " << y_dis << std::endl;
 
 	l_error_dis_au = refLeft - l_dis;
 	r_error_dis_au = refRight - r_dis;
 	k_error_dis_au = refKick - k_dis;
 	y_error_dis_au = refYaw - y_dis;
 
-	if (std::abs(tarVelLeft - tarVelRight) < .05 && (std::abs(r_current) < 10)
-			&& (std::abs(l_current) < 10)) {
+	if (std::abs(tarVelLeft - tarVelRight) < .05 && (std::abs(r_current) < 10) && (std::abs(l_current) < 10)) { //initial jitter //commment out speed limit
 
 		y_error_dis_au = 0;
+		std::cout << "HERE" << std::endl;
 
 	}
+
+	//std::cout << "Y: " << y_error_dis_au << std::endl;
 
 	//std::cout << "Error: " << y_error_dis_au << std::endl;
 
@@ -388,13 +400,15 @@ void DriveController::DrivePID() { //auton
 	double total_kick = P_KICK_DIS + I_KICK_DIS + D_KICK_DIS;
 	double total_yaw = P_YAW_DIS + I_YAW_DIS;
 
+	//std::cout << "Y: " << total_yaw << std::endl;
+
 	double target_rpm_yaw_change = total_yaw * MAX_Y_RPM;
 	double target_rpm_right = total_right * MAX_Y_RPM;
 	double target_rpm_left = total_left * MAX_Y_RPM;
 	double target_rpm_kick = total_kick * MAX_X_RPM;
 
-	target_rpm_right = target_rpm_right + target_rpm_yaw_change;
-	target_rpm_left = target_rpm_left - target_rpm_yaw_change;
+	target_rpm_right = target_rpm_right + target_rpm_yaw_change; //+
+	target_rpm_left = target_rpm_left - target_rpm_yaw_change; //-
 
 	if (target_rpm_left > MAX_Y_RPM) {
 		target_rpm_left = MAX_Y_RPM;
@@ -417,8 +431,8 @@ void DriveController::DrivePID() { //auton
 	r_last_error = r_error_dis_au;
 	kick_last_error = k_error_dis_au;
 
-	//std::cout << "L: " << target_rpm_left << std::endl;
-	//std::cout << " L: " << P_LEFT_DIS << std::endl;
+//	std::cout << "L: " << target_rpm_left;
+//			std::cout << " R: " << target_rpm_right << std::endl;
 
 }
 
@@ -519,7 +533,7 @@ void DriveController::AutoVisionTrack() { //aims the robot and then drive forwar
 }
 
 void DriveController::Drive(double ref_kick, double ref_right,
-		double ref_left, //teleop
+		double ref_left,
 		double ref_yaw, double k_p_right, double k_p_left, double k_p_kick,
 		double k_p_yaw, double k_d_yaw, double k_d_right, double k_d_left,
 		double k_d_kick, double target_vel_left, double target_vel_right,
@@ -574,7 +588,7 @@ void DriveController::Drive(double ref_kick, double ref_right,
 	double kick_current = ((double) canTalonKicker->GetEncVel()
 			/ (double) CONVERSION_DIVISION) * CONVERSION_MULTIPLICATION; //going right is positive
 
-	std::cout << "KICK: " << canTalonKicker->GetOutputVoltage() << std::endl;
+	//std::cout << "KICK: " << canTalonKicker->GetOutputVoltage() << std::endl;
 
 	l_error_vel_t = ref_left - l_current;
 	r_error_vel_t = ref_right - r_current;
@@ -640,13 +654,9 @@ void DriveController::ResetVisionState() {
 void DriveController::StopAll() {
 
 	canTalonFrontLeft->Set(0);
-
 	canTalonFrontRight->Set(0);
-
 	canTalonBackLeft->Set(0);
-
 	canTalonBackRight->Set(0);
-
 	canTalonKicker->Set(0);
 }
 
@@ -875,7 +885,7 @@ void DriveController::DisableAutonThreads() {
 
 }
 
-void DriveController::SetRef(double ref[][15]) { //each point has 15 indexes, last column is 0s
+void DriveController::SetRef(double ref[][13]) { //each point has 15 indexes, last column is 0s //15 for Brutus
 
 	for (int r = 0; r < (sizeof(full_refs) / sizeof(full_refs[0])); r++) {
 
