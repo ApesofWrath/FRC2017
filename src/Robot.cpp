@@ -319,7 +319,7 @@ public:
 		std::cout<<"R1: "<< drive_controller->canTalonBackRight->GetOutputCurrent();//<<std::endl;
 		std::cout<<" R2: "<< drive_controller->canTalonFrontRight->GetOutputCurrent();//<<std::endl;
 		std::cout<<" L1: "<< drive_controller->canTalonBackLeft->GetOutputCurrent();//<<std::endl;
-		std::cout<< " L2: "<< drive_controller->canTalonFrontLeft->GetOutputCurrent()<<std::endl;
+		std::cout<< " L2: "<< drive_controller->canTalonFrontLeft->GetOutputCurrent()<<std::endl; //TODO: 0.25 when not moving
 
 		SmartDashboard::PutNumber("Azimuth", vision_->findAzimuth());
 
@@ -660,6 +660,16 @@ public:
 //			break;
 //
 //		}
+
+		drive_controller->canTalonFrontLeft->Set(1.0);
+		drive_controller->canTalonBackLeft->Set(1.0);
+		drive_controller->canTalonFrontRight->Set(1.0);
+		drive_controller->canTalonBackRight->Set(1.0);
+		//drive_controller->canTalonFrontRight->Set(1.0);
+		//drive_controller->canTalonBackRight->Set(1.0);
+		std::cout << "R:" << (drive_controller->canTalonFrontRight->GetEncVel() / 4096.0) * 600.0 << std::endl;
+		std::cout << "L: " << (drive_controller->canTalonFrontLeft->GetEncVel() / 4096.0) * 600.0 << std::endl;
+
 
 	}
 
