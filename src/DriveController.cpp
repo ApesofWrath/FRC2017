@@ -77,7 +77,7 @@ double d_kick_vel = 0;
 const double K_P_RIGHT_DIS = 0.04; //0.048 //DrivePID
 const double K_P_LEFT_DIS = 0.04; //0.048
 const double K_P_KICKER_DIS = 0.280; //TODO: check this value
-const double K_P_YAW_DIS = 3.0;//558; /0.3
+const double K_P_YAW_DIS = 1.5;//558; /0.3
 
 const double K_I_RIGHT_DIS = 0.0; //DrivePID
 const double K_I_LEFT_DIS = 0.0;
