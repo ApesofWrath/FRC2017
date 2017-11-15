@@ -23,6 +23,9 @@
 #include <LEDLightStrip.h>
 #include <TrapezoidalProfile.h>
 
+// kicker wheel doesn't go all the way down
+// belly pan, bolt to center bar
+
 #define PI 3.14159265
 
 class Robot: public frc::IterativeRobot {

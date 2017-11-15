@@ -11,7 +11,7 @@
 const int PCM_CAN_ID = 31;
 
 const int EXPAND_CHANNEL = 0;
-const int RETRACT_CHANNEL = 1;
+const int RETRACT_CHANNEL = 2;
 
 const int close_state = 0;
 const int open_state = 1;

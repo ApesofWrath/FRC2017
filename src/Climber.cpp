@@ -33,7 +33,6 @@ double Climber::CheckCurrent(){
 
 	return (double)(canTalonClimber->GetOutputCurrent());
 
-
 }
 
 void Climber::ClimberStateMachine(){

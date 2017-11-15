@@ -8,9 +8,9 @@
 #ifndef SRC_LEDLIGHTSTRIP_H_
 #define SRC_LEDLIGHTSTRIP_H_
 
-#include <LEDLightStrip.h>
+//#include <LEDLightStrip.h>
 #include <mindsensors.h>
-#include <LEDLightStrip.h>
+//#include <LEDLightStrip.h>
 #include <iostream>
 using mindsensors::CANLight;
 
